@@ -1,0 +1,17 @@
+/****************************** Informacion del boton tooltip ********************************/
+.tip_btn{
+   border-radius: 2px;
+   padding: 1.5px;
+   top: -23px;
+   background-color: #454545;
+   position: absolute;
+   color: white;
+   font-size: 0.89em;
+   opacity: 0;
+   transition: opacity 250ms ease-out;
+   pointer-events: none; /*quita la propiedad de interactuar con el tip*/
+}
+
+.wrapper:hover .tip_btn{
+   opacity: 1;
+}

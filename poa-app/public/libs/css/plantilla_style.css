@@ -1,0 +1,783 @@
+*{
+    /*con el * indicamos que toda la pagina GENERAL toma estos estilos*/
+    margin: 0;
+    padding:0;
+    box-sizing: border-box;
+}
+html {
+	height: 100%;
+}
+body{
+    min-height: 100%;
+    overflow-x: hidden;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+/* LAYOUT */
+.layout-roles{
+    color: #eee;
+    font-size: 12px;
+    font-weight: 600;
+    border: 0.5px solid #eee;
+    padding: 2px;
+    border-radius: 5px;
+}
+
+/*-----------------
+	1. MAIN
+-----------------------*/
+.main{
+    position: absolute;
+    /*acomodamos los datos del cuerpo para que no se oculten detras de la barra lateral*/
+    /* width: calc(100% - 300px); original*/
+    width: calc(100% - 250px);
+    /*movemos 300px a la derecha que es lo que ocupa la barra lateral*/
+    /* left: 300px; original*/
+    left: 250px;
+    min-height: 100vh;
+    background: #eee;
+    transition: 50ms; /*efecto mostrar y ocultar sidebar*/
+}
+
+/* estilos de input START*/
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+.select2-selection{
+    border: 0.5px solid #595959 !important;
+}
+input:focus{
+    border-color: #1B80C2 !important;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(52, 144, 220, 0.5) !important;
+}
+.form-control {
+    text-transform: uppercase;
+    border: 1px solid #595959 !important;
+    color: black !important;
+}
+
+textarea::placeholder, input::placeholder { text-transform: none; } /* placeholder */
+
+.form-control.is-invalid{
+    border: 1px solid #dc3545 !important;
+}
+.form-control:focus {
+    border-color: #1B80C2 !important;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(52, 144, 220, 0.5) !important;
+}
+/* estilos de input END*/
+
+/*DESPLAZAMIENTO Y OCULTAR sidebar*/
+/*.main.active{*/
+    /*al tamaño de 100% le restamos el tamaño del .sidebar.active que es 60px*/
+    /*width: calc(100% - 60px);*/
+    /*para que no afecte a los 2 lados le indicamos que solo afecto al lado left(izquierdo)*/
+    /*left: 60px;*/
+/*}*/
+
+.main.active{
+    /*al tamaño de 100% le restamos el tamaño del .sidebar.active que es 60px*/
+    width: calc(100%);
+    /*para que no afecte a los 2 lados le indicamos que solo afecto al lado left(izquierdo)*/
+    left: 0;
+}
+
+/*-----------------
+	1. MAIN END
+-----------------------*/
+/*************************************************************************************************/
+/*-----------------
+	2. TOPBAR
+-----------------------*/
+.main .topbar
+{
+    width: 100%;
+    background-color: #333333;
+    /* background-color: #ddd; */
+    padding: 0 20px;
+    height: 55px;
+    /*display: flex; ayuda a acomodarse a cambios de tamaño*/
+    display: flex;
+    /*La propiedad CSS justify-content define cómo el navegador distribuye el espacio entre y alrededor de los items flex, a lo largo 
+    del eje principal de su contenedor.*/
+    justify-content: space-between;
+    align-items: center;
+    
+}
+.toggle{
+    /* position: relative; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 30px;
+    cursor: pointer;
+    border-radius: 2px;
+    background-color: #1B80C2;
+}
+.toggle i{
+    color: #fff;
+    margin: 0;
+    padding: 0;
+}
+
+/* DROPDOW PERFIL START */
+.topbar .perfil{
+    position: relative;
+    background-color: #f2f2f2;
+    border-radius: 50%;
+}
+.topbar .perfil img{
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    border-radius: 50%;
+    object-fit: cover;
+    cursor: pointer;
+    border: 1px solid #eee;
+}
+.topbar .perfil .link-perfil .data-session{
+    padding: 5px 8px;
+    cursor: pointer;
+    border-bottom: 1px solid black;
+}
+.topbar .perfil .link-perfil{
+    margin: 0;
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    padding: 5px 0;
+    box-shadow: 4px 4px 16px rgba(0, 0, 0, 0.3);
+    border-radius: 7px;
+    border: 1px solid black;
+    background-color: #fff;
+    width: 200px;
+    list-style: none;
+    z-index: 9999;
+}
+.topbar .perfil .link-perfil.show{
+    display: block;
+}
+.topbar .perfil .link-perfil a{
+    padding: 5px 15px;
+    display: flex;
+    font-size: 14px;
+    color: black;
+    align-items: center;
+    text-decoration: none;
+    cursor: pointer;
+}
+.topbar .perfil .link-perfil a:hover{
+    background-color: #0E60AD;
+    color: #fff;
+}
+/* DROPDOW PERFIL START END*/
+/*-----------------
+	2. TOPBAR END
+-----------------------*/
+/*************************************************************************************************/
+/*-----------------
+	3. Contenido Principal Pagina
+-----------------------*/
+.main-wrapper
+{
+    position: absolute;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+.main .contenido_pagina{
+    /*damos un padding al div que almacena nuestro contenido principal de cada pagina*/
+    padding: 10px;
+    /*al contenido de la pagina le restamos el tamaño del topbar y el footer para acomodarla*/
+    min-height: calc(100vh - 90px); /*topbar 45px + footer 45px = 90px */
+    background: #eeeee4;
+}
+/*-----------------
+	3. Contenido Principal Pagina END
+-----------------------*/
+/*************************************************************************************************/
+/*-----------------
+	5. Sidebar Menu
+-----------------------*/
+.sidebar{
+    position: fixed;
+    width: 250px;
+    height: 100%;
+    background-color: #333333;
+    /* overflow: hidden; */
+    /* overflow: auto; */
+    font-family: 'Source Sans Pro', open sans, sans-serif;
+    font-weight: 500;
+}
+.sidebar-list{
+    height: 93%;
+    overflow: auto;
+}
+.sidebar-list::-webkit-scrollbar{
+    width: 7px;
+}
+.sidebar-list::-webkit-scrollbar-thumb{
+    border-radius: 7px;
+}
+.sidebar-list:hover::-webkit-scrollbar-thumb{
+    background-color: #1B80C2;
+}
+.sidebar .logo-details{
+    height: 55px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    cursor: default;
+    border-bottom: 1px solid #606060;
+}
+.sidebar .logo-details .image img{
+    height: 35px;
+    min-width: 40px;
+    text-align: center;
+    line-height: 50px;
+}
+.sidebar .logo-details .logo_name{
+    font-size: 20px;
+    color: #eee;
+}
+.sidebar-list .bloque .titulo{
+    font-size: 15px;
+    text-decoration: none;
+    cursor: pointer;
+    color: #cccccc;
+    padding: 9px;
+    display: flex;
+    align-items: center;
+    /* evitar que el texto se pueda seleccionar */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none; 
+}
+.sidebar-list .bloque .titulo.show .Arrow{
+    transform: rotateX(180deg);
+}
+.sidebar-list .bloque .submenu a{
+    font-size: 14px;
+    cursor: pointer;
+    color: #cccccc;
+	display: block;
+	height: auto;
+    text-decoration: none;
+	padding: 9px;
+    display: flex;
+    align-items: center;
+}
+.sidebar-list .bloque .titulo:hover{
+    color: #fff;
+    background-color: #404040;
+}
+.sidebar-list .bloque .submenu a:hover{
+    color: #fff;
+    background-color: #404040;
+}
+.bloque .Arrow{
+    font-size: 12px;
+    margin-left: auto;
+}
+.bloque .submenu{
+    display: none;
+    margin: 4px 0;
+    /* evitar que el texto se pueda seleccionar */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none; 
+}
+.bloque .submenu.show{
+    display: block;
+    animation: mostrar 500ms, movimiento 150ms linear;
+}
+@keyframes mostrar{
+    0%{
+        opacity: 0;
+    }
+    100%{
+        opacity: 1;
+    }
+}
+@keyframes movimiento{
+    0%{
+        transform: translateY(-10%);
+    }
+    100%{
+        transform: translateY();
+    }
+}
+.bloque .badge{
+    margin-left: auto;
+    color: #fff;
+    background-color:#c62828;
+    font-size: 12px;
+}
+/*-----------------
+	5. Sidebar Menu END
+-----------------------*/
+/*************************************************************************************************/
+
+/*-----------------
+	6. Footer
+-----------------------*/
+.footer {
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #D5D8DC;
+    width: 100%;
+    bottom: 0;
+    position: static;
+}
+/*-----------------
+	6. Footer END
+-----------------------*/
+/*************************************************************************************************/
+/*-----------------
+	7. Toast
+-----------------------*/
+
+/*-----------------
+	7. Toast END
+-----------------------*/
+/*************************************************************************************************/
+/*-----------------
+	8. ScrollTop
+-----------------------*/
+.scroll-top{
+    position: fixed;
+    z-index: 998;
+    bottom: 5px;
+    right: 25px;
+    background: rgba(0, 0, 0, 0.3);
+    color: white;
+    line-height: 45px;
+    text-align: center;
+    width: 45px;
+    height: 40px;
+    cursor: pointer;
+    border-radius: 10px;
+    /*display: none;*/
+    font-size: 30px;
+    transition: all 0.3s ease-out;
+}
+
+.ocultar-btn{   /*propiedad para ocultar el botonScroll*/
+    /*la propiedad display no es animable en css*/
+    visibility: hidden;
+    opacity: 0;
+}
+
+.scroll-top:hover{
+    background: rgba(0, 0, 0, 0.6);
+}
+
+/*-----------------
+	8. ScrollTop END
+-----------------------*/
+/*************************************************************************************************/
+/*-----------------
+	9. Datatable
+-----------------------*/
+table.dataTable td {
+    font-size: 12px;
+    padding: 8px 9px;
+    vertical-align: middle;
+}
+table thead tr td{
+    font-weight: 600;
+}
+
+/*-----------------
+	9. Datatable END
+-----------------------*/
+/*************************************************************************************************/
+/*-----------------
+	10. Modal
+-----------------------*/
+.modal.animado{
+    opacity: 0;
+    transition: all 250ms ease-out !important;
+}
+.modal.animado.show{
+    opacity: 1;
+}
+.modal-backdrop.fade { /*color de fondo .modal*/
+    transition: opacity 0.3s ease-out !important;
+  }
+.modal.fade .modal-dialog {
+    transform: translate(0, -50px);
+    transition: transform 250ms ease-out !important;
+}
+.modal.show .modal-dialog {
+    transform: translate(0, 0) !important;
+}
+
+/* OVERLAY MODAL INICIO */
+.modal-dialog .overlay {
+    opacity: 0;
+    pointer-events: none;
+    display: -ms-flexbox;
+    display: flex;
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    margin: -1px;
+    z-index: 1052;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -ms-flex-align: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #ddd;
+    border-radius: 0.3rem;
+    transition: opacity 0.2s ease;
+}
+.modal-dialog .overlay.show{
+    opacity: 1;
+    pointer-events: visible;
+}
+/* OVERLAY MODAL FIN */
+
+/*-----------------
+	10. Modal END
+-----------------------*/
+/*************************************************************************************************/
+/*-----------------
+	11. Loader
+-----------------------*/
+.body-fondo{    /*colocamos color al body por que se muestra antes que cargue el loader pantalla blanca*/
+    background-color: #282828 !important;
+}
+#loader-wrapper {
+	background-color: #282828 !important;
+	bottom: 0 !important;
+	height: 100% !important;
+	left: 0 !important;
+	position: fixed !important;
+	right: 0 !important;
+	top: 0 !important;
+	width: 100% !important;
+	z-index: 9999 !important;
+}
+#loader {
+	background-position: center center;
+	background-repeat: no-repeat;
+	height: 200px;
+	left: 50%;
+	margin: -100px 0 0 -100px;
+	position: absolute;
+	top: 50%;
+	width: 200px;
+}
+.loader-ellips {
+	font-size: 1.2rem;
+	position: relative;
+	width: 64px;
+	margin: 100px auto 0;
+}
+.loader-ellips__dot {
+	display: block;
+	width: 1em;
+	height: 1em;
+	border-radius: 0.5em;
+	position: absolute;
+	animation-duration: 0.5s;
+	animation-timing-function: ease;
+	animation-iteration-count: infinite;
+}
+.loader-ellips__dot:nth-child(1),
+.loader-ellips__dot:nth-child(2) {
+	left: 0;  
+}
+.loader-ellips__dot:nth-child(3) { 
+	left: 1.5em;   
+}
+.loader-ellips__dot:nth-child(4) { 
+	left: 3em;   
+}
+.loader-ellips__dot:nth-child(1) {
+	animation-name: reveal;  
+}
+.loader-ellips__dot:nth-child(2),
+.loader-ellips__dot:nth-child(3) {
+	animation-name: slide;
+}
+.loader-ellips__dot:nth-child(4) {
+	animation-name: reveal;
+	animation-direction: reverse;
+}
+@keyframes reveal {
+	from { 
+		transform: scale(0.001); 
+	}
+	to { 
+		transform: scale(1); 
+	}
+}
+@keyframes slide {
+	to { 
+		transform: translateX(1.5em) 
+	}
+}
+.loader-ellips__dot:nth-child(1) { 
+	background: #aaa;  
+}
+.loader-ellips__dot:nth-child(2) { 
+	background: #3490dc;  
+}
+.loader-ellips__dot:nth-child(3) { 
+	background: #aaa;  
+}
+.loader-ellips__dot:nth-child(4) { 
+	background: #3490dc;  
+}
+
+/*-----------------
+	11. Loader END
+-----------------------*/
+/*************************************************************************************************/
+/*-----------------
+	12. Toast SweetAlert2
+-----------------------*/
+.colored-toast.swal2-icon-success {
+    background-color: #2d862d !important;
+  }
+  
+  .colored-toast.swal2-icon-error {
+    background-color: #A0111F !important;
+  }
+  
+  .colored-toast.swal2-icon-warning {
+    background-color: #f8bb86 !important;
+  }
+  
+  .colored-toast.swal2-icon-info {
+    background-color: #3fc3ee !important;
+  }
+  
+  .colored-toast.swal2-icon-question {
+    background-color: #87adbd !important;
+  }
+  
+  .colored-toast .swal2-title {
+    color: white;
+  }
+  
+  .colored-toast .swal2-close {
+    color: white;
+  }
+  
+  .colored-toast .swal2-html-container {
+    color: white;
+  }
+  
+/*-----------------
+	12. Toast SweetAlert2 END
+-----------------------*/
+/*-----------------
+	13. SELECT2 START
+-----------------------*/
+.select2-results{
+    font-size: 12px;
+    color: black;
+}
+.select2-results__option{
+    border-bottom: 1px solid #8c8c8c;
+}
+/*-----------------
+	13. SELECT2 END
+-----------------------*/
+/* *************************************************************************** */
+/*-----------------
+	14. BUTTON STYLE START
+-----------------------*/
+
+.boton{
+    display: inline-block;
+    background-color: #f2f2f2;
+    vertical-align: middle;
+    -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+        user-select: none;
+    line-height: 19px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 5px 10px;
+    border-radius: 6px;
+    border: 1px solid black;
+    text-decoration: none;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    transition: all 0.2s ease;
+    /* margin-bottom: 5px; */
+}
+.boton:hover{
+    text-decoration: none;
+}
+
+.red{
+    color: #A0111F;
+}
+.red:hover{
+    background-color: #A0111F;
+    color: #fff;
+}
+
+.blue{
+    color: #004d99;
+}
+.blue:hover{
+    background-color: #004d99;
+    color: #fff;
+}
+
+.default{
+    color: black;
+}
+.default:hover{
+    background-color: #CED5DC;
+    color: black;
+}
+
+.green{
+    color: #00802b;
+}
+.green:hover{
+    background-color: #004d00;
+    color: #fff;
+}
+
+.info{
+    color: #138496;
+}
+.info:hover{
+    background-color: #138496;
+    color: #fff;
+}
+
+.purple{
+    color: purple;
+}
+.purple:hover{
+    background-color: purple;
+    color: #fff;
+}
+
+.boton-grupo{
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+}
+.boton-grupo-vertical{
+    /* el div padre se tomada el ancho de los hijos */
+    position: relative;
+    display: inline-flex;
+    vertical-align: middle;
+    /* alineacion vertical */
+    flex-direction: column;
+    align-items: flex-start;
+}
+.boton-grupo-vertical .boton{
+    margin-bottom: 5px;
+}
+
+/*-----------------
+	14. BUTTON STYLE END
+-----------------------*/
+
+/*-----------------
+	X-DROPDOWN START
+-----------------------*/
+.x-dropdown {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+}
+.x-dropdown .x-dropdown-button {
+    display: inline-block;
+    vertical-align: middle;
+    overflow: hidden;
+    margin-bottom: 2px;
+}
+.x-dropdown .x-dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    display: none;
+    float: left;
+    /* width: 150px; */
+    min-width:max-content;
+    color: #212529;
+    text-align: left;
+    list-style: none;
+    background-color: #fff;
+    border: 1px solid black;
+    border-radius: 0.25rem;
+    font-weight: 500;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    /* el overflow hiden no permite que los border de los hijos sobresalgan de esta caja y los oculta */
+    /* overflow: hidden; */
+    padding: 4px 0;
+}
+.x-dropdown .x-dropdown-menu::before{
+    position: absolute;
+    content: '';
+    height: 11px;
+    width: 11px;
+    background-color: #fff;
+    z-index: -1;
+    border-top: 1px solid;
+    border-left: 1px solid;
+    transform: rotate(45deg);
+    right: 7px;
+    top: -6px;
+}
+.x-dropdown .x-dropdown-menu.show{
+  display: block;
+}
+.x-dropdown .x-dropdown-menu li{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.x-dropdown .x-dropdown-menu li a{
+    margin: 0;
+    width: 100%;
+    display: flex;
+    padding: 5px 7px;
+    align-items: center;
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 12px;
+}
+.x-dropdown .x-dropdown-menu li a:hover{
+    background-color: #0E60AD;
+    color: #fff;
+}
+.x-dropdown .menu-right {
+    right: 0;
+    left: auto;
+}
+/*-----------------
+	X-DROPDOWN END
+-----------------------*/

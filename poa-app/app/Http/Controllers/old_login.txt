@@ -1,0 +1,82 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Http\Requests\LoginRequest;
+use App\Models\Trabajadores;
+use Illuminate\Http\Request;
+use App\Models\Usuario;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
+class LoginController extends Controller
+{
+    public function autenticacion (LoginRequest $request)
+    {
+        
+        /*con request() recuperamos datos enviados del formulario
+        y con ->only() indicamos que datos queremos recuperar
+        */
+        $usuario = Usuario::query()->where('usuario', $request->usuario)->first();
+    
+        //preguntamos si las credenciales son correctas con el metodo attempt
+        if($usuario && Hash::check($request->password, $usuario->password))
+        {
+            $trabajador = Trabajadores::where('usuario_id', $usuario->id)->first();
+
+            Auth::guard('usuario')->login($usuario); //autenticamos al usuario
+            Auth::guard('trabajador')->login($trabajador);
+
+            $request->session()->regenerate();
+            //redireccionamos por el nombre de la ruta
+            return redirect()->route('usuario.index');
+
+            $data = Usuario::find(Auth::guard('usuario')->user()->id);
+
+            if($data->trabajadores === null) //verificamos si el usuario tiene asignado un trabajador
+            {
+                throw ValidationException::withMessages([
+                    'trabajador_null' => __('auth.trabajador_null')//si no tiene trabajador asignamo mandamos mensaje 
+                ]);
+            }
+            else
+            {
+                //$request->session()->put('trabajador', $data->trabajadores->nombre);//accedemos al trabajador del usuarios rescatado a traves del metodo trabajadores creado en el modelo Usuario
+                //podemos crear varias variables de session
+
+                //rescatamos el id de la gerencia al que pertenece un trabajador y la guardamos en una session
+                // $gerencia = Trabajadores::join('unidades', 'unidades.id', '=', 'trabajadores.unidad_id')
+                //             ->join('gerencias', 'gerencias.id', '=', 'unidades.gerencia_id')
+                //             ->select('gerencias.id')
+                //             ->where('trabajadores.id', Auth::guard('trabajador')->user()->id)->first();
+
+                // $request->session()->put('id_gerencia', $gerencia->id);
+
+                
+            }
+        }
+    
+        //si no redireccionamos a la pagina raiz donde esta el login
+        //return redirect('/');
+    
+    
+        //mandamos mensaje de error de las credenciales y la mostramos en el error registros del login
+        throw ValidationException::withMessages([
+            'registros' => __('auth.failed')
+        ]);
+    
+    }
+    
+    public function logout(Request $request)
+    {
+        //usamos el metodo de laravel ya creado logout
+        Auth::guard()->logout();
+
+        $request->session()->flush();
+        $request->session()->invalidate();
+
+        return redirect('/');
+    }
+    
+}

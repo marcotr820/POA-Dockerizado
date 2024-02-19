@@ -1,0 +1,98 @@
+.x-select{
+    width: 100%;
+    position: relative;
+    display: block;
+    /* con display flex vertical-align: middle alinea todos los elementos internos verticalmente */
+    /* vertical-align: middle; */
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+.x-select-button{
+    width: 100%;
+    height: 37px;
+    display: flex;
+    padding: 0 10px;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    border: 1px solid;
+    border-radius: 4px;
+    margin-bottom: 4px;
+    background-color: #fff;
+}
+.x-select .x-select-button span{
+    font-weight: 500;
+    /* configuracion para que no sea muy largo */
+    max-width: 97%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    /* con pointer-events lo ocultamos de eventos click y solo se ejecuta el padre  */
+    pointer-events: none;
+}
+.x-select-arrow{
+    border: solid;
+    border-width: 0 2px 2px 0;
+    padding: 2px;
+    transform: rotate(45deg);
+    /* con pointer-events lo ocultamos de eventos click y solo se ejecuta el padre  */
+    pointer-events: none;
+}
+.x-select-body{
+    width: 100%;
+    height: auto;
+    position: absolute;
+    background-color: #FFFFFF;
+    margin: 0;
+    padding: 0;
+    min-width: min-content;
+    font-size: 13px;
+    overflow: hidden;
+    border: 1px solid;
+    border-radius: 5px;
+    z-index: 1000;
+    /* evitamos que el contenido exeda el tamaño del contenedor */
+    box-sizing: border-box;
+    display: none;
+}
+.x-select-body.show{
+    display: block;
+}
+.x-select-menu{
+    padding: 0;
+    margin: 0;
+    max-height: 200px;
+    overflow-y: auto;
+}
+.x-select-body .x-select-menu li{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.x-select-body .x-select-menu li .x-select-option{
+    display: flex;
+    align-items: center;
+    justify-content:left;
+    margin: 0;
+    padding: 5px 7px;
+    cursor: pointer;
+    border-bottom: 1px solid;
+}
+.x-select-body .x-select-menu li:last-child .x-select-option{
+    /* quitamos el borde al ultimo hijo */
+    border-bottom: none;
+}
+.x-select-body .x-select-menu li .x-select-option div{
+    margin-right: 5px;
+    /* con pointer-events lo ocultamos de eventos click y solo se ejecuta el padre  */
+    pointer-events: none;
+    visibility: hidden;
+}
+.x-select-body .x-select-menu li .x-select-option:hover{
+    background-color:#E7ECF0;
+}
+.x-select-body .x-select-menu li .x-select-option input[type="radio"]{
+    display: none;
+}
+.x-select-body .x-select-menu li .x-select-option input[type="radio"]:checked + div{
+    visibility: visible;
+}
